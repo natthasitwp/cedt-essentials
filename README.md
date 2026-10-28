@@ -25,3 +25,11 @@ Or copy a folder from `skills/` into `~/.claude/skills/` by hand.
 In Claude Code, type `/notebook-exercises`, or ask:
 
 > Add self-checking exercises after each topic in the notebooks under `code/Week03_ML/`.
+
+## Checks
+
+Every push runs [gitleaks](https://github.com/gitleaks/gitleaks) for secrets and `scripts/check_skills.py` for personal info (emails, home paths, Thai ID/phone numbers, real answer hashes) and valid `SKILL.md` frontmatter. Run it locally before pushing:
+
+```bash
+python scripts/check_skills.py
+```
