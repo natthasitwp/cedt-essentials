@@ -1,4 +1,4 @@
-# Skills
+# CEDT Essentials
 
 Agent skills for Claude Code, Cursor, Codex and other agents that support `SKILL.md`.
 
@@ -6,10 +6,10 @@ Agent skills for Claude Code, Cursor, Codex and other agents that support `SKILL
 
 ```bash
 # all skills
-npx skills add natthasitwp/skills
+npx skills add natthasitwp/cedt-essentials
 
 # one skill
-npx skills add natthasitwp/skills --skill notebook-exercises
+npx skills add natthasitwp/cedt-essentials --skill notebook-exercises
 ```
 
 Or copy a folder from `skills/` into `~/.claude/skills/` by hand.
