@@ -10,7 +10,8 @@ from pathlib import Path
 ALLOWED_EMAILS = re.compile(r"noreply@anthropic\.com|@users\.noreply\.github\.com$")
 
 CHECKS = [
-    ("email address", re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")),
+    # the domain must end in letters, so package pins like katex@0.16.11 are not emails
+    ("email address", re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[A-Za-z]{2,}\b")),
     ("absolute home path", re.compile(r"(/Users/|/home/)(?!<)[\w.-]+|C:\\Users\\[\w.-]+")),
     ("Thai national ID", re.compile(r"\b\d-?\d{4}-?\d{5}-?\d{2}-?\d\b")),
     ("Thai phone number", re.compile(r"(?<!\d)0[689]\d-?\d{3}-?\d{4}(?!\d)")),
