@@ -76,6 +76,8 @@ skeleton for every lesson; delete it once real lessons exist.
 - **Quotes are short paraphrases** of what the lecturer said, never long verbatim passages.
 - **Questions:** mostly numeric or short-reasoning; multiple-choice options of similar length
   with the right answer in varying positions; every question has a worked solution.
+- **Theme:** light by default, whatever the system setting. Switch to dark only when the user
+  asks, by adding `data-theme="dark"` to `<html>` on every page.
 - **Language:** write in the language the class is taught in (usually Thai), keep terms of
   art as they appear on the slides.
 - The site is for the user's private study. Do not publish slides or recordings anywhere

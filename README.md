@@ -35,7 +35,7 @@ that follows sound teaching practice instead of just giving answers.
 | [notebook-exercises](skills/notebook-exercises/SKILL.md) | Your class teaches with Jupyter notebooks and you want practice | Self-checking exercises after each topic of a lesson notebook, with answers stored as hashes so solutions stay hidden |
 
 `semester` and `cram` share one look: a paper-notebook theme with Thai and English fonts that
-is comfortable to read for a long time, in light and dark mode.
+is comfortable to read for a long time. Pages are light by default; dark mode is opt-in.
 
 ## Install
 

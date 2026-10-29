@@ -17,13 +17,9 @@
   --hand: "Mali", "Jost", "IBM Plex Sans Thai", cursive;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --measure: 46rem;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
-  --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);
-  --sage: #2E3B2B; --sage-ink: #9CC394; --slate: #93B6C9; --slate-soft: #233039;
-  --brown: #A8603A; --brown-soft: #3A2A20; --blue: #74AAF0; --blue-soft: #1D2A3B; --arrow: #E07A68;
-  --ok: #9CC394; --bad: #E58C70; --on-accent: #12161C; color-scheme: dark; } }
+/* Light is the default. Dark mode is opt-in: set data-theme="dark" on the root html element. */
 :root[data-theme="dark"] {
   --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
   --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);

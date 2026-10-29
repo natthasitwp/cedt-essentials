@@ -32,9 +32,10 @@ these tokens for anything new.
 | `--blue` / `--blue-soft` | `#1668B8` / `#E3EEF9` | `#74AAF0` / `#1D2A3B` | map, current week, mission box |
 | `--arrow` | `#C8402F` | `#E07A68` | map arrows |
 
-Every token is defined on bare `:root`, redefined under
-`@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {...} }` and again
-under `:root[data-theme="dark"]`. `body` always sets its own background.
+Light is the default, whatever the system setting. Every token is defined on bare `:root`
+(with `color-scheme: light`) and redefined under `:root[data-theme="dark"]`. Dark mode is
+opt-in: add `data-theme="dark"` to `<html>` only when the user asks for it. Do not follow
+`prefers-color-scheme`. `body` always sets its own background.
 
 ## Type
 
