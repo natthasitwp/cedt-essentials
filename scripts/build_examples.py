@@ -34,7 +34,7 @@ write('assets/demo.css', '''.demo-bar{max-width:62rem;margin:20px auto;padding:1
 write('assets/demo.js', '''(() => {
   try { const theme = localStorage.getItem('cedt-demo-theme'); if(theme) document.documentElement.dataset.theme = theme; } catch {}
   document.getElementById('demo-theme')?.addEventListener('click', () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = document.documentElement.dataset.theme === 'dark';
     const theme = dark ? 'light' : 'dark'; document.documentElement.dataset.theme = theme;
     try { localStorage.setItem('cedt-demo-theme', theme); } catch {}
   });
@@ -60,16 +60,83 @@ lessons = [
      'ตัวหารคือเงื่อนไขที่รู้แล้ว B ไม่ใช่ Event A ที่กำลังถามหา',
      'ในเลขคู่ {2, 4, 6} มี 2 ผลลัพธ์ที่มากกว่า 3 ดังนั้น P(มากกว่า 3 | เลขคู่) = 2/3',
      [dict(id='02-1', type='num', q='รู้แล้วว่าแต้มเป็นเลขคู่ โอกาสได้แต้มมากกว่า 3 เท่าไร? ตอบเป็นเศษส่วนได้', answer='2/3', hint='พิจารณาเฉพาะ {2, 4, 6}', sol='ผลลัพธ์ที่ผ่านคือ {4, 6} จึงได้ 2/3'), dict(id='02-2', type='mc', q='ใน P(A | B) เรารู้อะไรแล้ว?', choices=['A เกิดขึ้นแล้ว', 'B เกิดขึ้นแล้ว', 'A และ B ไม่เกิด', 'A และ B อิสระกัน'], answer=1, sol='ด้านขวาของ | คือเงื่อนไขที่ทราบแล้ว'), dict(id='02-3', type='think', q='อธิบายว่าทำไม P(A | B) กับ P(B | A) จึงอาจไม่เท่ากัน', sol='ใช้พื้นที่อ้างอิงคนละชุด ตัวหาร P(B) กับ P(A) อาจต่างกัน แม้ตัวเศษ P(A ∩ B) เท่ากัน')])]
-rows = ''
+source = ROOT / 'examples-source/cram/lessons'
+source.mkdir(parents=True, exist_ok=True)
+index_source = source / 'index.md'
+if not index_source.exists():
+    index_source.write_text('''---
+title: Probability ก่อนวันสอบ
+code: CRAM / PROBABILITY BASICS
+site: cedt-demo-cram-v1
+purpose: mini-lecture สร้างขึ้นใหม่เพื่อสาธิต ไม่มีคลิปจึงไม่มี timestamp
+---
+:::note
+คำตอบที่ทำได้เก็บเฉพาะเบราว์เซอร์นี้ เนื้อหาและสไลด์เป็นตัวอย่างสมมติ ไม่มีข้อมูลผู้เรียนจริง
+:::
+''')
 for nn, slug, title, sub, intro, formula, predict, reveal, warning, worked, qs in lessons:
-    rows += f'<li><span class="n">{nn}</span><span class="t"><a href="lessons/{nn}-{slug}.html">{title}</a><span class="d">{sub} · สไลด์สาธิต {int(nn)}</span></span><span class="s" data-lesson-status="{nn}" data-total="3">ยังไม่เริ่ม</span></li>'
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500"><rect width="1000" height="500" fill="#f4f3ef"/><path d="M50 100H950M50 425H950" stroke="#dcd8d0"/><text x="55" y="65" font-family="sans-serif" font-size="21" fill="#4e7184">CEDT / ORIGINAL DEMO SLIDE {int(nn):02d}</text><text x="55" y="160" font-family="sans-serif" font-size="34" fill="#45403c">{'Sample space &amp; events' if nn == '01' else 'Conditional probability'}</text><text x="55" y="225" font-family="monospace" font-size="26" fill="#45403c">{'S = {1, 2, 3, 4, 5, 6}' if nn == '01' else 'B = {2, 4, 6}, A = {4, 5, 6}'}</text><rect x="48" y="270" width="900" height="100" rx="8" fill="#d4e2d0"/><text x="70" y="330" font-family="monospace" font-size="29" fill="#45403c">{'P(even) = 3 / 6 = 0.5' if nn == '01' else 'P(A | B) = 2 / 3'}</text><text x="55" y="463" font-family="sans-serif" font-size="18" fill="#6c6661">Synthetic teaching material / fair six-sided die</text></svg>'''
     write(f'cram/slides/demo-{nn}.svg', svg)
-    body = f'''<p class="kicker">CRAM / LESSON {nn} · ~15 นาที</p><h1>{title}</h1><p class="meta">{sub}</p><div class="note">สไลด์สาธิตที่เขียนขึ้นใหม่ ไม่มีคลิปบรรยาย จึงไม่มีปุ่ม timestamp</div><div class="goal"><b>เป้าหมาย:</b> {sub} และอธิบายคำตอบได้</div><h2><span class="num">1</span>แนวคิด</h2><p>{intro}</p><figure class="slide"><img src="../slides/demo-{nn}.svg" alt="{html.escape(formula)}"><figcaption>สไลด์สาธิต {int(nn)} · สร้างขึ้นสำหรับตัวอย่างนี้</figcaption></figure><div class="def" data-label="นิยาม">{formula}</div><details class="predict"><summary>{predict}</summary><p>{reveal}</p></details><div class="warn">{warning}</div><h2><span class="num">2</span>ลองดูตัวอย่าง</h2><p>{worked}</p><h2><span class="num">3</span>ลองทำด้วยตัวเอง</h2><div class="quiz" data-quiz="{nn}"></div><script type="application/json" id="problems-{nn}">{json.dumps(qs, ensure_ascii=False)}</script><nav class="pager"><a href="../index.html">← สารบัญบทเรียน</a><a href="{'02-conditional.html' if nn == '01' else '../reference/cheatsheet.html'}">{'บทถัดไป →' if nn == '01' else 'Cheat sheet →'}</a></nav>'''
-    doc = page(title, body, 2).replace('</head>', '<script defer src="../assets/quiz.js"></script></head>')
-    write(f'cram/lessons/{nn}-{slug}.html', doc)
-write('cram/index.html', page('cram / Probability', f'''<p class="kicker">CRAM / PROBABILITY BASICS</p><h1>Probability<br>ก่อนวันสอบ</h1><p class="meta">บทเรียนสั้นจาก mini-lecture ที่สร้างขึ้นเพื่อสาธิต</p><div class="goal">เริ่มจากการนับผลลัพธ์ แล้วต่อด้วย Conditional probability ลองตอบก่อนดูเฉลย</div><ol class="lesson-list">{rows}</ol><p><a href="reference/cheatsheet.html">เปิด Cheat sheet →</a></p><div class="note">คำตอบที่ทำได้จะเก็บในเบราว์เซอร์นี้ ไม่มีการอัปโหลดข้อมูล สกิลจริงใช้สไลด์และ transcript ที่คุณให้มา และเชื่อมคลิปตามเวลาจริงเมื่อมีข้อมูล</div>''', 1))
-write('cram/reference/cheatsheet.html', page('Probability / Cheat sheet', '''<p class="kicker">CRAM / ONE-PAGE REFERENCE</p><h1>Probability Cheat sheet</h1><h2>01 · Sample space</h2><div class="def" data-label="สไลด์สาธิต 1">P(A) = |A| / |S| เมื่อผลลัพธ์ทุกแบบมีโอกาสเท่ากัน</div><p>ลูกเต๋ายุติธรรม: S = {1, 2, 3, 4, 5, 6}<br>P(เลขคู่) = 3/6 = 0.5</p><a href="../lessons/01-sample-space.html">ทวนบทที่ 1 →</a><h2>02 · Conditional probability</h2><div class="def" data-label="สไลด์สาธิต 2">P(A | B) = P(A ∩ B) / P(B), P(B) &gt; 0</div><p>จำกัดพื้นที่เหลือ B ก่อน แล้วหา A ที่อยู่ใน B<br>P(มากกว่า 3 | เลขคู่) = 2/3</p><div class="warn">P(A | B) ไม่จำเป็นต้องเท่ากับ P(B | A)</div><a href="../lessons/02-conditional.html">ทวนบทที่ 2 →</a><p><a href="../index.html">← สารบัญ</a></p>''', 2))
+    path = source / f'{nn}-{slug}.md'
+    if not path.exists():
+        text = f'''---
+title: {title}
+minutes: 15
+src: สไลด์สาธิตที่สร้างขึ้นใหม่
+oneline: {sub}
+goal: {sub} และอธิบายคำตอบได้
+cheat:
+  - "{formula}"
+---
+## แนวคิด
+
+{intro}
+
+::slide demo-{nn}.svg | {formula} | สไลด์สาธิต {int(nn)} สร้างขึ้นสำหรับตัวอย่างนี้
+
+:::def นิยาม
+{formula}
+:::
+
+:::predict {predict}
+{reveal}
+:::
+
+:::warn
+{warning}
+:::
+
+## ลองดูตัวอย่าง
+
+{worked}
+
+## ลองทำด้วยตัวเอง
+
+:::quiz
+'''
+        for q in qs:
+            text += f"? {q['type']} | {q['q']}\n"
+            if q['type'] == 'mc':
+                text += ''.join(f"- {'[x] ' if i == q['answer'] else ''}{c}\n" for i, c in enumerate(q['choices']))
+            elif q['type'] == 'num':
+                text += f"answer: {q['answer']}\n"
+            if q.get('hint'):
+                text += f"hint: {q['hint']}\n"
+            text += f"sol: {q['sol']}\n\n"
+        path.write_text(text + ':::\n')
+# Run the skill's real Markdown compiler against the editable example sources.
+import importlib.util
+spec = importlib.util.spec_from_file_location('cram_builder', ROOT / 'skills/cram/scripts/build.py')
+builder = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(builder)
+builder.ROOT = source.parent
+builder.SRC = source
+builder.SITE = OUT / 'cram'
+if builder.main():
+    raise SystemExit('Cram example build failed')
+for path in (OUT / 'cram').rglob('*.html'):
+    prefix = '../' if path.parent == OUT / 'cram' else '../../'
+    path.write_text(chrome(path.read_text(), prefix))
 
 # Semester: populate the actual course template; use a local-only demo adapter.
 course = dict(code='PY 101', title='PY 101 · Python for Data', topbar='PY 101 · ตัวอย่าง semester', heading='เส้นทาง Python for Data', subject='Python', missionLabel='งานข้อมูล', start='2026-11-02', credits='Demo · 4 ชม./สัปดาห์', goal='อ่านข้อมูล คำนวณสถิติเบื้องต้น และส่งรายงานที่รันซ้ำได้', credit='คอร์สและผลงานตัวอย่างสมมติ สร้างเพื่อแสดงรูปแบบผลลัพธ์ของ semester', capstone='วิเคราะห์ข้อมูลจำลอง พร้อมอธิบายข้อจำกัดและส่งโค้ดที่รันซ้ำได้', handbookUrl='handbook.html', courseUrl='course.html', handbookReady=['w01','w02'], hardware={'cpu':'CPU / Mac / Windows'}, stages=[dict(id='basics', label='Stage 1', title='Python foundations', bufferAfter=False),dict(id='data', label='Stage 2', title='Data workflow', bufferAfter=False)], steps=[])

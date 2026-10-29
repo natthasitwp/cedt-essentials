@@ -60,7 +60,9 @@ python3 -m http.server 8000 --directory examples
 ```
 
 Open `http://localhost:8000`. The build reuses assets from `skills/` and keeps the
-repo banner in `examples/assets/banner.png`. Deploy only `examples/` to Cloudflare Pages:
+repo banner in `examples/assets/banner.png`. Edit cram lesson content in
+`examples-source/cram/lessons/` and rebuild; the script runs the skill's Markdown compiler.
+Deploy only `examples/` to Cloudflare Pages:
 
 ```bash
 npx wrangler pages deploy examples --project-name cedt-essentials --branch main
