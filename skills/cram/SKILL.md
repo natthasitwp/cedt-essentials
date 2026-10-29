@@ -55,12 +55,30 @@ has a mistake. Fix the `.md` and build again.
 3. **Cut lessons.** One lesson = one idea a learner can finish in 15–30 minutes. Order them by
    what depends on what, not strictly by slide number. Tell the user the plan (titles and
    slide ranges) before writing them all.
+   **Then interview the user about visuals, before writing anything.** For each lesson, find
+   the ideas that are a process or a change (an algorithm that runs in steps, a formula with
+   parameters to move, a choice between tools, a pipeline, a before/after) and name the
+   figure you would build for each (for example "K-means stepping, centroids move"). Ask with
+   `AskUserQuestion`, at most 4 questions per call, one per lesson or per group of similar
+   lessons, each naming the lesson and its candidate figure(s). Options:
+   - **Visual first (Recommended when the idea is a process):** an interactive figure leads the
+     explanation, text is short.
+   - **Text first:** short readable text and slide images; at most one figure if it is cheap.
+   - **Both:** text first, then a figure to try.
+   Add a "skip, I know this already" choice only when the lesson is likely review. Also ask
+   once, for the whole course, how the user likes to learn (see things, read, or do
+   questions), and use it as the default for lessons they did not answer. Record every answer
+   in `NOTES.md` under "Visuals". Do not guess the answer, and do not skip this step because
+   it costs a round trip: a lesson that should have been a figure and came out as text is the
+   most common miss.
 4. **Write each lesson** as `lessons/NN-slug.md` (LESSON-FORMAT.md): slide images, the
    lecturer's point with its timestamp, plain explanation, one worked example from the slides
    or homework, a predict box, a common-mistake box, 3–6 self-check questions, `cheat:` items
    and 1–3 trusted web sources in the front matter. Check facts the lecture does not cover
-   against those sources and cite them. When an idea is easier to see moving (dragging a
-   signal, stepping an algorithm), use a widget; reuse one or write one per WIDGETS.md.
+   against those sources and cite them. Follow the visuals choice recorded in `NOTES.md`:
+   build the figure for every lesson marked visual first or both, place it right after the
+   sentence that introduces the idea (not at the end), and reuse a widget or write one per
+   WIDGETS.md. For lessons marked text first, keep the text short and skip the figure.
 5. **Build.** `python3 <skill>/scripts/build.py`. The cheat sheet and index come from the
    front matter, so there is nothing else to write. Fix every reported problem.
 6. **Check and open.** Verify each numeric answer by computing it (a short Python run, not
@@ -69,6 +87,10 @@ has a mistake. Fix the `.md` and build again.
    `site/index.html` for the user.
 
 ## Rules
+
+- **Ask about visuals, never assume.** Slides are still images; they do not show an algorithm
+  moving. Every lesson whose idea is a process gets a figure offered in the interview, and
+  every figure the user accepted must exist before you call the lesson done.
 
 - **The lecture wins.** Use the lecturer's notation, symbols and order of ideas. When a web
   source disagrees with the slides, show both and say which one the exam will follow.
