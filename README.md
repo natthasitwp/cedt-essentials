@@ -1,4 +1,4 @@
-![CEDT Essentials — Study smarter. Keep learning.](examples/assets/banner.png)
+![CEDT Essentials — Learn faster. Keep learning. /semester, /cram and notebook-exercises](.github/banner.png)
 
 # CEDT Essentials
 
@@ -60,7 +60,7 @@ python3 -m http.server 8000 --directory examples
 ```
 
 Open `http://localhost:8000`. The build reuses assets from `skills/` and keeps the
-repo banner in `examples/assets/banner.png`. Edit cram lesson content in
+examples hero image in `examples/assets/banner.png` (the README banner is `.github/banner.png`). Edit cram lesson content in
 `examples-source/cram/lessons/` and rebuild; the script runs the skill's Markdown compiler.
 Deploy only `examples/` to Cloudflare Pages:
 
