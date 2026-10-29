@@ -1,0 +1,159 @@
+<meta charset="utf-8">
+<title>__CODE__ Handbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Mali:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the course's lesson notebook (paper grid, framed page, one reading column). Index view lists lessons; #wNN opens one lesson. */
+:root {
+  --paper: #F4F3EF; --paper-2: #EBE9E3; --card: #FBFAF7;
+  --ink: #45403C; --ink-soft: #6C6661; --muted: #9A948D; --rule: #DCD8D0; --grid: rgba(110,100,90,.06);
+  --sage: #D4E2D0; --sage-ink: #4F7A4A; --slate: #4E7184; --slate-soft: #E2EAEE;
+  --brown: #7A3D1C; --brown-soft: #F1E6DF; --blue: #1668B8; --blue-soft: #E3EEF9;
+  --code-bg: #EFEDE7; --on-accent: #FFFFFF;
+  --font: "Jost", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --hand: "Mali", "Jost", "IBM Plex Sans Thai", cursive;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --measure: 44rem;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
+  --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);
+  --sage: #2E3B2B; --sage-ink: #9CC394; --slate: #93B6C9; --slate-soft: #233039;
+  --brown: #A8603A; --brown-soft: #3A2A20; --blue: #74AAF0; --blue-soft: #1D2A3B;
+  --code-bg: #26241F; --on-accent: #12161C; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
+  --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);
+  --sage: #2E3B2B; --sage-ink: #9CC394; --slate: #93B6C9; --slate-soft: #233039;
+  --brown: #A8603A; --brown-soft: #3A2A20; --blue: #74AAF0; --blue-soft: #1D2A3B;
+  --code-bg: #26241F; --on-accent: #12161C; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background-color: var(--paper); color: var(--ink); font: 17px/1.85 var(--font);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px; }
+body::after { content: ""; position: fixed; inset: 0; border: 6px solid var(--brown); pointer-events: none; z-index: 50; }
+a { color: var(--slate); text-underline-offset: 3px; }
+a:hover { color: var(--brown); }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.topbar { max-width: 60rem; margin: 0 auto; padding-block: 24px 0;
+  padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px));
+  display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: baseline; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.topbar .course { font-weight: 600; color: var(--ink); margin-right: auto; text-decoration: none; }
+.topbar a { color: var(--ink-soft); text-decoration: none; }
+main { max-width: var(--measure); margin: 0 auto; padding-block: 8px 96px;
+  padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 520px) { .topbar, main { padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); } body { font-size: 16px; } }
+
+.kicker { margin: 34px 0 6px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+h1 { margin: 0 0 8px; padding: 14px 18px; background: var(--sage); font-weight: 500; font-size: clamp(1.55rem, 4.2vw, 2rem); line-height: 1.38; text-wrap: balance; }
+h2 { margin: 56px 0 10px; font-weight: 500; font-size: 1.3rem; letter-spacing: .03em; border-bottom: 1px solid var(--rule); padding-bottom: 4px; text-wrap: balance; }
+h2 .num { font-family: var(--hand); color: var(--blue); margin-right: 8px; }
+h3 { margin: 30px 0 4px; font-weight: 600; font-size: 1.06rem; }
+p, li { hyphens: auto; }
+.meta { color: var(--ink-soft); font-size: 15px; }
+strong { font-weight: 600; }
+.goal { border-left: 4px solid var(--sage-ink); background: var(--card); padding: 12px 18px; margin: 20px 0; }
+.goal b, .goal strong { color: var(--sage-ink); }
+.def { background: var(--card); border-top: 28px solid var(--slate); position: relative; padding: 12px 18px; margin: 26px 0; }
+.def::before { content: attr(data-label); position: absolute; top: -25px; left: 14px; color: var(--on-accent); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.note { background: var(--slate-soft); padding: 10px 16px; margin: 20px 0; font-size: 15.5px; }
+.warn { background: var(--brown-soft); border-left: 4px solid var(--brown); padding: 10px 16px; margin: 20px 0; font-size: 15.5px; }
+.link-infer { border-left: 4px solid var(--blue); background: var(--blue-soft); padding: 10px 16px; margin: 20px 0; font-size: 15.5px; }
+.link-infer::before { content: "เชื่อมกับ __MISSION_LABEL__"; display: block; font-family: var(--hand); font-size: 13px; color: var(--blue); }
+details.predict { background: var(--card); border: 1px dashed var(--muted); padding: 10px 16px; margin: 20px 0; }
+details.predict summary { cursor: pointer; font-weight: 500; }
+details.predict summary::before { content: "ทายก่อน · "; font-family: var(--hand); color: var(--blue); }
+details.predict[open] summary { margin-bottom: 6px; }
+code { font-family: var(--mono); font-size: .86em; background: var(--code-bg); padding: 1px 5px; }
+.code { position: relative; margin: 16px 0; }
+.code pre { margin: 0; background: var(--code-bg); border: 1px solid var(--rule); padding: 12px 14px; overflow-x: auto; font: 14px/1.6 var(--mono); }
+.code pre code { background: none; padding: 0; font-size: inherit; }
+.code .lang { position: absolute; top: -10px; left: 10px; font: 11px/1.6 var(--mono); background: var(--paper); padding: 0 6px; color: var(--muted); }
+.code button { position: absolute; top: 6px; right: 6px; font: 12px var(--font); background: var(--card); color: var(--ink-soft); border: 1px solid var(--rule); padding: 1px 8px; cursor: pointer; }
+.code button:hover { color: var(--slate); border-color: var(--slate); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 16px 0; }
+.tbl { overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { font-weight: 500; color: var(--ink-soft); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+td code { white-space: nowrap; }
+.exercise { background: var(--card); border: 2px solid var(--ink); border-radius: 14px 6px 12px 5px / 6px 12px 5px 14px; padding: 14px 18px; margin: 28px 0; }
+.exercise .tag { font-family: var(--hand); color: var(--blue); font-size: 14px; }
+.exercise h4 { margin: 0 0 4px; font-size: 1.05rem; font-weight: 600; }
+.exercise ul { margin: 6px 0; padding-left: 1.2em; }
+.checklist { list-style: none; padding-left: 0; }
+.checklist li::before { content: "☐ "; color: var(--sage-ink); }
+.paper-ref { background: var(--card); border: 1px solid var(--rule); padding: 10px 16px; margin: 16px 0; font-size: 15.5px; }
+.paper-ref .lbl { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--brown); }
+.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; font-size: 16px; border-top: 1px solid var(--rule); padding-top: 14px; }
+.index-list { list-style: none; padding: 0; display: grid; gap: 12px; }
+.index-list a { display: grid; grid-template-columns: 64px minmax(0,1fr); gap: 12px; text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--rule); padding: 12px 16px; }
+.index-list a:hover { border-color: var(--slate); }
+.index-list .w { font-family: var(--hand); font-size: 1.2rem; font-weight: 600; color: var(--blue); }
+.index-list .t { font-weight: 500; line-height: 1.5; }
+.index-list .s { display: block; font-size: 14px; color: var(--ink-soft); }
+article[hidden], section[hidden] { display: none; }
+</style>
+
+<nav class="topbar">
+  <a class="course" href="#">__CODE__ · Handbook</a>
+  <a href="#">สารบัญ</a>
+  <a href="__COURSE_URL__" target="_blank" rel="noopener">หน้าคอร์ส ↗</a>
+</nav>
+
+<main>
+  <section id="index">
+    <p class="kicker">คู่มือประกอบคอร์ส · เขียนนำหน้าตารางเรียน 2 สัปดาห์</p>
+    <h1>__CODE__ Handbook</h1>
+    <p class="meta">คำอธิบายภาษาไทย ตัวอย่าง และแบบฝึกหัดเขียนโค้ดที่ตรวจอัตโนมัติ ส่งงานและสอบที่<a href="__COURSE_URL__" target="_blank" rel="noopener">หน้าคอร์ส</a></p>
+    <div class="goal"><b>วิธีใช้:</b> อ่านบทเรียนของสัปดาห์ ทำแบบฝึกหัดในโฟลเดอร์ <code>exercises/</code> ให้ <code>uv run pytest</code> ขึ้นเขียวทั้งหมด แล้วไปส่งงานกับสอบย่อยที่หน้าคอร์ส</div>
+    <ul class="index-list" id="index-list"></ul>
+  </section>
+  __LESSONS__
+</main>
+
+<script>
+const lessons = [...document.querySelectorAll("article.lesson")];
+const list = document.getElementById("index-list");
+list.innerHTML = lessons.map(a => `<li><a href="#${a.id}"><span class="w">${a.dataset.week}</span><span><span class="t">${a.dataset.title}</span><span class="s">${a.dataset.sub || ""}</span></span></a></li>`).join("");
+
+lessons.forEach((a, i) => {
+  const prev = lessons[i - 1], next = lessons[i + 1];
+  const pager = document.createElement("nav");
+  pager.className = "pager";
+  pager.innerHTML = `<span>${prev ? `<a href="#${prev.id}">← ${prev.dataset.week} ${prev.dataset.title}</a>` : `<a href="#">← สารบัญ</a>`}</span>
+    <span>${next ? `<a href="#${next.id}">${next.dataset.week} ${next.dataset.title} →</a>` : ""}</span>`;
+  a.append(pager);
+});
+
+document.querySelectorAll("pre > code").forEach(code => {
+  const pre = code.parentElement, wrap = document.createElement("div");
+  wrap.className = "code";
+  pre.replaceWith(wrap);
+  wrap.append(pre);
+  const lang = code.dataset.lang;
+  if (lang) { const l = document.createElement("span"); l.className = "lang"; l.textContent = lang; wrap.prepend(l); }
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = "คัดลอก";
+  b.addEventListener("click", () => {
+    const done = () => { b.textContent = "คัดลอกแล้ว"; setTimeout(() => b.textContent = "คัดลอก", 1500); };
+    navigator.clipboard?.writeText(code.textContent).then(done, () => {
+      const r = document.createRange(); r.selectNodeContents(code);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "เลือกข้อความแล้ว";
+    });
+  });
+  wrap.append(b);
+});
+
+function show() {
+  const id = location.hash.slice(1);
+  const target = lessons.find(a => a.id === id);
+  document.getElementById("index").hidden = !!target;
+  lessons.forEach(a => a.hidden = a !== target);
+  window.scrollTo(0, 0);
+  document.title = target ? `${target.dataset.week} · ${target.dataset.title}` : "__CODE__ Handbook";
+}
+addEventListener("hashchange", show);
+show();
+</script>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cheat sheet · {{COURSE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Mali:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="../assets/site.js"></script>
+</head>
+<body data-site="{{SITE_ID}}">
+<nav class="topbar"><a class="course" href="../index.html">{{COURSE}}</a><a href="../index.html">บทเรียน</a></nav>
+<main>
+  <p class="kicker">Cheat sheet · ทุกบทในหน้าเดียว</p>
+  <h1>{{COURSE}} Cheat sheet</h1>
+  <!-- one <h2> per lesson: the formulas, definitions and steps a learner needs on exam day,
+       each with the slide number it comes from. No explanations here; link back to the lesson. -->
+  <h2><span class="num">01</span>{{LESSON_TITLE}}</h2>
+  <div class="def" data-label="สูตร · สไลด์ {{N}}">\( {{formula}} \)</div>
+  <p class="meta"><a href="../lessons/01-{{slug}}.html">อ่านบทเต็ม →</a></p>
+</main>
+</body>
+</html>
