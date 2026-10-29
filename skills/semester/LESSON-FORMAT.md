@@ -57,5 +57,6 @@ prev/next links, and gives every code block a language tag and a copy button.
 1. `python tools/build.py`
 2. Parse `dist/handbook.html` and check that every tag closes; `node --check` the script.
 3. Look once at the built page through a local static server (`python -m http.server`) at
-   phone and desktop width, light and dark. Fix what you see, then publish.
+   phone and desktop width, in the default light theme (and with `data-theme="dark"` if the
+   user turned dark mode on). Fix what you see, then publish.
 4. Add the new ids to `handbookReady`, rebuild, and republish the course page.
