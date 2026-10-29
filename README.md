@@ -1,3 +1,5 @@
+![CEDT Essentials — Study smarter. Keep learning.](examples/assets/banner.png)
+
 # CEDT Essentials
 
 Agent skills that help university students learn faster and keep learning on their own.
@@ -36,6 +38,33 @@ that follows sound teaching practice instead of just giving answers.
 
 `semester` and `cram` share one look: a paper-notebook theme with Thai and English fonts that
 is comfortable to read for a long time. Pages are light by default; dark mode is opt-in.
+
+## Live examples
+
+**[Try the interactive examples →](https://cedt-essentials.pages.dev)**
+
+- **[cram: Probability before an exam](https://cedt-essentials.pages.dev/cram/)** — two Thai lessons, original demo slides, six self-check questions with instant feedback, and a one-page cheat sheet.
+- **[semester: Python for Data](https://cedt-essentials.pages.dev/semester/course.html)** — a six-week syllabus, Sunday deadlines, a route map, sample progress, local practice submissions, and a [two-lesson handbook](https://cedt-essentials.pages.dev/semester/handbook.html) with downloadable Python exercises.
+
+The examples use the skills' actual templates and notebook theme. All course content,
+slides, learner work and initial scores are synthetic. Progress stays in your browser;
+use **ล้างข้อมูลทดลอง** to reset it. The public semester demo does not generate or grade
+AI exams: those features require the Claude artifact environment. No lecturer slides,
+recordings, private student data or API keys are published.
+
+### Build and preview the examples
+
+```bash
+python3 scripts/build_examples.py
+python3 -m http.server 8000 --directory examples
+```
+
+Open `http://localhost:8000`. The build reuses assets from `skills/` and keeps the
+repo banner in `examples/assets/banner.png`. Deploy only `examples/` to Cloudflare Pages:
+
+```bash
+npx wrangler pages deploy examples --project-name cedt-essentials --branch main
+```
 
 ## Install
 

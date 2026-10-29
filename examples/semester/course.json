@@ -1,0 +1,102 @@
+{
+  "code": "PY 101",
+  "title": "PY 101 · Python for Data",
+  "topbar": "PY 101 · ตัวอย่าง semester",
+  "heading": "เส้นทาง Python for Data",
+  "subject": "Python",
+  "missionLabel": "งานข้อมูล",
+  "start": "2026-11-02",
+  "credits": "Demo · 4 ชม./สัปดาห์",
+  "goal": "อ่านข้อมูล คำนวณสถิติเบื้องต้น และส่งรายงานที่รันซ้ำได้",
+  "credit": "คอร์สและผลงานตัวอย่างสมมติ สร้างเพื่อแสดงรูปแบบผลลัพธ์ของ semester",
+  "capstone": "วิเคราะห์ข้อมูลจำลอง พร้อมอธิบายข้อจำกัดและส่งโค้ดที่รันซ้ำได้",
+  "handbookUrl": "handbook.html",
+  "courseUrl": "course.html",
+  "handbookReady": [
+    "w01",
+    "w02"
+  ],
+  "hardware": {
+    "cpu": "CPU / Mac / Windows"
+  },
+  "stages": [
+    {
+      "id": "basics",
+      "label": "Stage 1",
+      "title": "Python foundations",
+      "bufferAfter": false
+    },
+    {
+      "id": "data",
+      "label": "Stage 2",
+      "title": "Data workflow",
+      "bufferAfter": false
+    }
+  ],
+  "steps": [
+    {
+      "id": "step-1",
+      "stage": "basics",
+      "title": "Python: lists & functions",
+      "short": "Python: lists & functions",
+      "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล",
+      "diff": "beginner",
+      "weeks": 1,
+      "hw": "cpu",
+      "opt": false,
+      "topics": [
+        "List, loop และผลรวม",
+        "Function และ edge cases"
+      ],
+      "project": "เขียนฟังก์ชันสรุปชุดข้อมูลและทดสอบกรณี list ว่าง"
+    },
+    {
+      "id": "step-2",
+      "stage": "basics",
+      "title": "Data cleaning",
+      "short": "Data cleaning",
+      "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล",
+      "diff": "beginner",
+      "weeks": 1,
+      "hw": "cpu",
+      "opt": false,
+      "topics": [
+        "Missing values",
+        "การตรวจข้อมูลก่อนคำนวณ"
+      ],
+      "project": "ล้างข้อมูลจำลองและรายงานจำนวนแถวก่อนและหลัง"
+    },
+    {
+      "id": "step-3",
+      "stage": "data",
+      "title": "Descriptive statistics",
+      "short": "Descriptive statistics",
+      "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล",
+      "diff": "beginner",
+      "weeks": 1,
+      "hw": "cpu",
+      "opt": false,
+      "topics": [
+        "Mean และ median",
+        "Outlier และการเลือกสถิติ"
+      ],
+      "project": "เปรียบเทียบค่าเฉลี่ยกับมัธยฐานก่อนและหลังเพิ่ม outlier"
+    },
+    {
+      "id": "step-4",
+      "stage": "data",
+      "title": "Reproducible report",
+      "short": "Reproducible report",
+      "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล",
+      "diff": "beginner",
+      "weeks": 1,
+      "hw": "cpu",
+      "opt": false,
+      "topics": [
+        "แยก input / computation / output",
+        "บันทึกข้อจำกัดและวิธีรันซ้ำ"
+      ],
+      "project": "ส่งสคริปต์และรายงานที่อีกคนรันแล้วได้ผลเดิม"
+    }
+  ]
+}

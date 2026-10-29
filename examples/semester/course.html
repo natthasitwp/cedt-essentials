@@ -1,0 +1,654 @@
+<!doctype html><html lang="th"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../assets/demo.css"><script defer src="../assets/demo.js"></script><meta charset="utf-8">
+<title>PY 101 · Python for Data</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Mali:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lesson notebook (paper grid, framed page, one comfortable reading column) with a hand-sketched route map on top, then one week per row that opens into a lesson. */
+:root {
+  --paper: #F4F3EF; --paper-2: #EBE9E3; --card: #FBFAF7;
+  --ink: #45403C; --ink-soft: #6C6661; --muted: #9A948D; --rule: #DCD8D0; --grid: rgba(110,100,90,.06);
+  --sage: #D4E2D0; --sage-ink: #4F7A4A;
+  --slate: #4E7184; --slate-soft: #E2EAEE;
+  --brown: #7A3D1C; --brown-soft: #F1E6DF;
+  --blue: #1668B8; --blue-soft: #E3EEF9; --arrow: #C8402F;
+  --ok: #4F7A4A; --bad: #A3472A; --on-accent: #FFFFFF;
+  --font: "Jost", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --hand: "Mali", "Jost", "IBM Plex Sans Thai", cursive;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --measure: 46rem;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
+  --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);
+  --sage: #2E3B2B; --sage-ink: #9CC394; --slate: #93B6C9; --slate-soft: #233039;
+  --brown: #A8603A; --brown-soft: #3A2A20; --blue: #74AAF0; --blue-soft: #1D2A3B; --arrow: #E07A68;
+  --ok: #9CC394; --bad: #E58C70; --on-accent: #12161C; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
+  --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);
+  --sage: #2E3B2B; --sage-ink: #9CC394; --slate: #93B6C9; --slate-soft: #233039;
+  --brown: #A8603A; --brown-soft: #3A2A20; --blue: #74AAF0; --blue-soft: #1D2A3B; --arrow: #E07A68;
+  --ok: #9CC394; --bad: #E58C70; --on-accent: #12161C; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background-color: var(--paper); color: var(--ink); font: 17px/1.8 var(--font);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px; }
+body::after { content: ""; position: fixed; inset: 0; border: 6px solid var(--brown); pointer-events: none; z-index: 50; }
+a { color: var(--slate); text-underline-offset: 3px; }
+a:hover { color: var(--brown); }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.hand { font-family: var(--hand); }
+
+.topbar { max-width: 62rem; margin: 0 auto; padding-block: 24px 0;
+  padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px));
+  display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: baseline; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.topbar .course { font-weight: 600; color: var(--ink); margin-right: auto; }
+.topbar a { color: var(--ink-soft); text-decoration: none; }
+main { max-width: var(--measure); margin: 0 auto; padding-block: 8px 96px;
+  padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+.wide { margin-inline: -7rem; }
+@media (max-width: 1060px) { .wide { margin-inline: 0; } }
+@media (max-width: 520px) { .topbar, main { padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); } body { font-size: 16px; } }
+
+.kicker { margin: 34px 0 6px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+h1 { margin: 0 0 8px; padding: 14px 18px; background: var(--sage); font-weight: 500; font-size: clamp(1.6rem, 4.4vw, 2.1rem); line-height: 1.35; text-wrap: balance; }
+h2 { margin: 56px 0 10px; font-weight: 500; font-size: 1.3rem; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+h2 .th { text-transform: none; letter-spacing: 0; }
+h3 { margin: 0; font-weight: 600; font-size: 1.05rem; line-height: 1.45; }
+.meta { color: var(--ink-soft); font-size: 15px; }
+.goal { border-left: 4px solid var(--sage-ink); background: var(--card); padding: 12px 18px; margin: 20px 0; }
+.goal b { color: var(--sage-ink); }
+.def { background: var(--card); border-top: 28px solid var(--slate); position: relative; padding: 12px 18px; }
+.def::before { content: attr(data-label); position: absolute; top: -25px; left: 14px; color: var(--on-accent); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.note { background: var(--slate-soft); padding: 10px 16px; font-size: 15px; }
+.warn { background: var(--brown-soft); border-left: 4px solid var(--brown); padding: 10px 16px; font-size: 15px; }
+
+/* status */
+.strip { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); background: var(--card); border: 1px solid var(--rule); margin: 22px 0; }
+.strip > div { padding: 12px 16px; border-left: 1px solid var(--rule); display: grid; gap: 0; min-width: 0; }
+.strip > div:first-child { border-left: 0; }
+.strip .lbl { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.strip .v { font-family: var(--hand); font-size: 1.5rem; font-weight: 600; line-height: 1.4; }
+.strip .s { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+@media (max-width: 640px) { .strip { grid-template-columns: repeat(2, minmax(0,1fr)); } .strip > div:nth-child(3) { border-left: 0; } .strip > div:nth-child(n+3) { border-top: 1px solid var(--rule); } }
+
+/* route map (sketch) */
+.map { display: grid; gap: 26px; margin-top: 16px; }
+.stage-tag { display: inline-block; background: var(--blue); color: var(--on-accent); font-family: var(--hand); font-size: 15px; line-height: 1.4; padding: 6px 14px; transform: rotate(-1.5deg); margin: 0 0 12px 4px; }
+.stage-tag small { opacity: .8; font-size: 13px; margin-left: 6px; }
+.cards { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 4px; }
+.arrow { color: var(--arrow); font-family: var(--hand); font-size: 22px; line-height: 1; padding: 0 4px; }
+.card { position: relative; width: 200px; min-height: 118px; text-align: left; background: var(--card); color: var(--ink);
+  border: 2px solid var(--ink); border-radius: 14px 6px 12px 5px / 6px 12px 5px 14px; padding: 14px 12px 10px 14px;
+  display: grid; align-content: start; gap: 4px; transition: transform .12s; }
+.card:hover { transform: rotate(-.6deg) translateY(-1px); }
+.card .t { font-family: var(--hand); font-size: 15.5px; font-weight: 600; line-height: 1.35; }
+.card .m { font-size: 12.5px; color: var(--ink-soft); line-height: 1.4; }
+.card .num { position: absolute; top: -12px; left: -10px; width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: var(--on-accent); font: 600 13px/26px var(--font); text-align: center; }
+.card.s-done, .card.s-early { background: var(--sage); }
+.card.s-now { background: var(--blue-soft); border-style: dashed; border-color: var(--blue); }
+.card.s-over { background: var(--brown-soft); border-color: var(--bad); }
+.card.opt { border-style: dotted; }
+.card .flag { font-family: var(--hand); font-size: 12px; color: var(--blue); }
+.card.s-over .flag { color: var(--bad); }
+.card.s-done .flag, .card.s-early .flag { color: var(--sage-ink); }
+@media (max-width: 520px) { .card { width: 100%; } .arrow { display: none; } }
+
+/* schedule */
+.weeks { border-top: 1px solid var(--rule); }
+.wk { border-bottom: 1px solid var(--rule); }
+.wk > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 58px minmax(0,1fr) auto; gap: 12px; align-items: center; padding: 12px 6px; }
+.wk > summary::-webkit-details-marker { display: none; }
+.wk .no { font-family: var(--hand); font-size: 1.15rem; font-weight: 600; line-height: 1.2; }
+.wk .no small { display: block; font: 12px/1.3 var(--mono); color: var(--muted); }
+.wk .ttl { min-width: 0; display: grid; line-height: 1.45; }
+.wk .ttl b { font-weight: 500; }
+.wk .ttl span { font-size: 13.5px; color: var(--ink-soft); }
+.wk.is-current > summary { background: var(--blue-soft); }
+.wk.kind-exam .no { color: var(--blue); }
+.pill { font-family: var(--hand); font-size: 13px; padding: 1px 10px; border: 1.5px solid var(--rule); border-radius: 12px 4px 10px 4px; white-space: nowrap; color: var(--ink-soft); }
+.pill.done { border-color: var(--sage-ink); color: var(--sage-ink); background: var(--sage); }
+.pill.early { border-color: var(--sage-ink); color: var(--on-accent); background: var(--sage-ink); }
+.pill.late { border-color: var(--brown); color: var(--brown); background: var(--brown-soft); }
+.pill.over { border-color: var(--bad); color: var(--on-accent); background: var(--bad); }
+.pill.now { border-color: var(--blue); color: var(--on-accent); background: var(--blue); }
+@media (max-width: 560px) { .wk > summary { grid-template-columns: 46px minmax(0,1fr); } .wk > summary .pill { grid-column: 2; justify-self: start; } }
+
+.lesson { padding: 6px 4px 36px; display: grid; gap: 22px; }
+.lesson .kicker { margin: 10px 0 0; }
+.lesson h3.big { font-size: 1.35rem; font-weight: 500; line-height: 1.4; text-wrap: balance; }
+.lesson ul.topics { margin: 6px 0 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 13px; padding: 0 9px; border: 1.5px solid var(--ink-soft); border-radius: 10px 4px 9px 4px; line-height: 1.7; }
+.chip.lens { border-color: var(--blue); color: var(--blue); }
+.sec-lbl { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+.paper { background: var(--card); border: 1px solid var(--rule); padding: 10px 16px; display: grid; gap: 2px; }
+.paper .pt { font-weight: 500; line-height: 1.5; }
+.paper .pa { font-size: 13px; color: var(--muted); }
+.paper .pw { font-size: 15px; color: var(--ink-soft); line-height: 1.65; }
+.depth { font-family: var(--hand); font-size: 12px; padding: 0 7px; margin-right: 6px; border-radius: 8px 3px 7px 3px; background: var(--slate-soft); color: var(--slate); }
+.depth.replicate { background: var(--brown-soft); color: var(--brown); }
+.stack { display: grid; gap: 10px; }
+details.more { background: var(--card); border-left: 3px solid var(--slate); padding: 8px 16px; }
+details.more summary { cursor: pointer; font-weight: 500; color: var(--slate); }
+details.more[open] summary { margin-bottom: 8px; }
+details.more ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 15px; }
+details.more li span { color: var(--ink-soft); }
+
+.hb-link { display: grid; gap: 2px; text-decoration: none; color: var(--ink); background: var(--card); padding: 12px 16px;
+  border: 2px solid var(--blue); border-radius: 14px 6px 12px 5px / 6px 12px 5px 14px; }
+.hb-link b { font-family: var(--hand); color: var(--blue); font-weight: 600; }
+.hb-link span { font-size: 14px; color: var(--ink-soft); }
+.hb-link:hover { background: var(--blue-soft); }
+.task, .q-wrap { background: var(--card); border: 1px solid var(--rule); padding: 14px 18px; display: grid; gap: 10px; min-width: 0; }
+.task-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+.hw { font-size: 13px; color: var(--brown); }
+textarea { width: 100%; min-height: 6em; font: 15px/1.6 var(--mono); padding: 8px 10px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); resize: vertical; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { font-size: 15px; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); padding: 5px 14px; }
+.btn:hover { border-color: var(--slate); color: var(--slate); }
+.btn.primary { background: var(--slate); color: var(--on-accent); border-color: var(--slate); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.hint { font-size: 14px; color: var(--ink-soft); }
+.q { border-top: 1px dashed var(--rule); padding-top: 12px; display: grid; gap: 8px; }
+.q:first-child { border-top: 0; padding-top: 0; }
+.q-head { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.q-head .tag { color: var(--slate); }
+.choice { display: flex; gap: 10px; align-items: flex-start; padding: 6px 12px; border: 1px solid var(--rule); background: var(--paper); cursor: pointer; line-height: 1.6; }
+.choice input { margin-top: 6px; accent-color: var(--slate); }
+.choice.right { border-color: var(--ok); background: var(--sage); }
+.choice.wrong { border-color: var(--bad); background: var(--brown-soft); }
+.fb { font-size: 15px; padding: 8px 14px; background: var(--paper); border-left: 3px solid var(--sage-ink); }
+.score { font-family: var(--hand); font-size: 1.8rem; font-weight: 600; line-height: 1.2; }
+.score.pass { color: var(--ok); } .score.fail { color: var(--bad); }
+
+details.rules { margin-top: 18px; }
+details.rules summary { cursor: pointer; font-weight: 500; color: var(--slate); }
+.rules ol { padding-left: 1.3em; display: grid; gap: 4px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border-bottom: 1px solid var(--rule); padding: 5px 10px; text-align: left; }
+th { font-weight: 500; color: var(--ink-soft); font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+.startrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 15px; }
+.startrow input { font: inherit; padding: 2px 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
+.credit { margin-top: 56px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 12px; }
+@media (prefers-reduced-motion: no-preference) { .wk[open] .lesson { animation: in .2s ease-out; } @keyframes in { from { opacity: .3; transform: translateY(-4px); } } }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+</style>
+
+<nav class="topbar">
+  <span class="course">PY 101 · ตัวอย่าง semester</span>
+  <a href="#route">เส้นทาง</a><a href="#schedule">ตารางเรียน</a><a href="#rules-sec">กฎ</a><a id="hbTop" href="#" target="_blank" rel="noopener" hidden>Handbook ↗</a>
+</nav>
+
+<aside class="demo-bar"><a href="../index.html">← CEDT Essentials / Examples</a><span>ตัวอย่างสาธิต · ข้อมูลสมมติ</span><button type="button" id="demo-theme">สลับธีม</button><button type="button" id="demo-reset">ล้างข้อมูลทดลอง</button></aside><main>
+  <p class="kicker"><span id="kInfo"></span> · <span id="kWeeks"></span> สัปดาห์</p>
+  <h1>เส้นทาง Python for Data</h1>
+  <p class="meta">หน่วยกิต <span class="mono">Demo · 4 ชม./สัปดาห์</span> · <span id="termRange"></span> · ส่งงานทุกวันอาทิตย์ 23:59</p>
+
+  <div class="goal"><b>สิ่งที่จะทำได้เมื่อจบคอร์ส:</b> อ่านข้อมูล คำนวณสถิติเบื้องต้น และส่งรายงานที่รันซ้ำได้</div>
+
+  <div class="strip" aria-label="สถานะ">
+    <div><span class="lbl">สัปดาห์นี้</span><span class="v" id="sWeek">–</span><span class="s" id="sWeekT">กำลังโหลด</span></div>
+    <div><span class="lbl">Deadline ถัดไป</span><span class="v" id="sDue">–</span><span class="s" id="sDueT"></span></div>
+    <div><span class="lbl">เกรดสะสม</span><span class="v" id="sGrade">–</span><span class="s" id="sGradeT"></span></div>
+    <div><span class="lbl">งานค้าง</span><span class="v" id="sLate">–</span><span class="s" id="sLateT"></span></div>
+  </div>
+  <div class="warn" id="notice" hidden></div>
+
+  <h2 id="route">The route <span class="th">· เส้นทาง</span></h2>
+  <p class="meta" style="margin:0">กดการ์ดเพื่อเปิดบทเรียนของ step นั้น สีบนการ์ดบอกสถานะ: ฟ้าคือกำลังเรียน เขียวคือผ่านแล้ว แดงคือเลยกำหนด</p>
+  <div class="map wide" id="map"></div>
+
+  <h2 id="schedule">Schedule <span class="th">· ตารางเรียนรายสัปดาห์</span></h2>
+  <div class="weeks" id="weeks"></div>
+
+  <h2 id="rules-sec">Rules <span class="th">· กฎของคอร์ส</span></h2>
+  <ol class="rules">
+    <li>แต่ละสัปดาห์ปิดวัน<b>อาทิตย์ 23:59</b> ขยาย deadline ไม่ได้</li>
+    <li>จะผ่านสัปดาห์ได้ต้อง <b>(1) ส่งงานประจำสัปดาห์</b> (ความคืบหน้า project หรือตัว project เองในสัปดาห์สุดท้ายของ step) และ <b>(2) สอบย่อยได้ ≥ 70%</b></li>
+    <li>สอบได้สัปดาห์ละไม่เกิน <b>3 ครั้ง</b> ข้อสอบเปลี่ยนทุกครั้งและนับครั้งที่ได้คะแนนสูงสุด</li>
+    <li>ส่งช้ายังผ่านได้ แต่คะแนนสัปดาห์นั้นจะถูก<b>คูณ 0.8</b> และติดสถานะ "ส่งช้า" ถาวร</li>
+    <li><b>ทำล่วงหน้าได้</b> ถ้าผ่านก่อนสัปดาห์นั้นเริ่ม จะได้สถานะ "ผ่านก่อนกำหนด" แต่ deadline ของสัปดาห์ถัดไปไม่ขยับเข้ามา</li>
+    <li>ถ้าค้างงานเกิน 2 สัปดาห์ ต้องใช้สัปดาห์ Buffer ถัดไปเคลียร์งานค้างก่อน</li>
+    <li>จบแต่ละ Stage มี<b>สอบท้าย Stage</b> ต้องได้ ≥ 60% ส่วน step ที่เป็น Optional ไม่นับเกรด</li>
+  </ol>
+  <div style="overflow-x:auto">
+    <table>
+      <tr><th>ส่วน</th><th>สัดส่วน</th><th>เกณฑ์เกรด</th></tr>
+      <tr><td>สอบย่อยรายสัปดาห์</td><td class="mono">30%</td><td>A ≥ 80 · B+ ≥ 75 · B ≥ 70</td></tr>
+      <tr><td>งานประจำสัปดาห์ / project</td><td class="mono">30%</td><td>C+ ≥ 65 · C ≥ 60 · D+ ≥ 55</td></tr>
+      <tr><td>สอบท้าย Stage (เฉลี่ยทุกครั้ง)</td><td class="mono">40%</td><td>D ≥ 50 · F &lt; 50</td></tr>
+    </table>
+  </div>
+  <details class="rules">
+    <summary>ตั้งค่าวันเปิดภาค</summary>
+    <div class="startrow" style="margin-top:8px">
+      <label for="startDate">วันเปิดภาค (ต้องเป็นวันจันทร์)</label>
+      <input type="date" id="startDate" value="2026-11-02">
+      <button class="btn" id="saveStart" type="button">บันทึก</button>
+      <span class="hint" id="startMsg"></span>
+    </div>
+  </details>
+  <p class="note" style="margin-top:18px">เว็บนี้เป็นตัวอย่างสาธารณะ: การส่งงานเป็นการทดลองในเบราว์เซอร์เท่านั้น ไม่มีผู้สอนตรวจ และไม่มีการเรียกใช้ Claude หรือบันทึกข้อมูลบนเซิร์ฟเวอร์</p>
+
+  <p class="credit">คอร์สและผลงานตัวอย่างสมมติ สร้างเพื่อแสดงรูปแบบผลลัพธ์ของ semester</p>
+</main>
+
+<script type="application/json" id="course-data">{"code": "PY 101", "title": "PY 101 · Python for Data", "topbar": "PY 101 · ตัวอย่าง semester", "heading": "เส้นทาง Python for Data", "subject": "Python", "missionLabel": "งานข้อมูล", "start": "2026-11-02", "credits": "Demo · 4 ชม./สัปดาห์", "goal": "อ่านข้อมูล คำนวณสถิติเบื้องต้น และส่งรายงานที่รันซ้ำได้", "credit": "คอร์สและผลงานตัวอย่างสมมติ สร้างเพื่อแสดงรูปแบบผลลัพธ์ของ semester", "capstone": "วิเคราะห์ข้อมูลจำลอง พร้อมอธิบายข้อจำกัดและส่งโค้ดที่รันซ้ำได้", "handbookUrl": "handbook.html", "courseUrl": "course.html", "handbookReady": ["w01", "w02"], "hardware": {"cpu": "CPU / Mac / Windows"}, "stages": [{"id": "basics", "label": "Stage 1", "title": "Python foundations", "bufferAfter": false}, {"id": "data", "label": "Stage 2", "title": "Data workflow", "bufferAfter": false}], "steps": [{"id": "step-1", "stage": "basics", "title": "Python: lists & functions", "short": "Python: lists & functions", "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล", "diff": "beginner", "weeks": 1, "hw": "cpu", "opt": false, "topics": ["List, loop และผลรวม", "Function และ edge cases"], "project": "เขียนฟังก์ชันสรุปชุดข้อมูลและทดสอบกรณี list ว่าง"}, {"id": "step-2", "stage": "basics", "title": "Data cleaning", "short": "Data cleaning", "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล", "diff": "beginner", "weeks": 1, "hw": "cpu", "opt": false, "topics": ["Missing values", "การตรวจข้อมูลก่อนคำนวณ"], "project": "ล้างข้อมูลจำลองและรายงานจำนวนแถวก่อนและหลัง"}, {"id": "step-3", "stage": "data", "title": "Descriptive statistics", "short": "Descriptive statistics", "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล", "diff": "beginner", "weeks": 1, "hw": "cpu", "opt": false, "topics": ["Mean และ median", "Outlier และการเลือกสถิติ"], "project": "เปรียบเทียบค่าเฉลี่ยกับมัธยฐานก่อนและหลังเพิ่ม outlier"}, {"id": "step-4", "stage": "data", "title": "Reproducible report", "short": "Reproducible report", "desc": "ตัวอย่างแผนเรียนที่เชื่อมกับเป้าหมายการทำงานข้อมูล", "diff": "beginner", "weeks": 1, "hw": "cpu", "opt": false, "topics": ["แยก input / computation / output", "บันทึกข้อจำกัดและวิธีรันซ้ำ"], "project": "ส่งสคริปต์และรายงานที่อีกคนรันแล้วได้ผลเดิม"}]}</script>
+<script>
+const C = JSON.parse(document.getElementById("course-data").textContent);
+const STEPS = C.steps;
+STEPS.forEach(s => { for (const k of ["topics", "papers", "tools", "res", "notes", "lenses"]) s[k] ||= []; s.short ||= s.title; s.diff ||= ""; });
+const STAGE = Object.fromEntries(C.stages.map(g => [g.id, g]));
+const HW = C.hardware || {};
+const DEPTH = { read: "อ่าน", skim: "อ่านผ่าน", replicate: "ทำซ้ำ" };
+const HANDBOOK = C.handbookUrl || "";
+const HANDBOOK_READY = new Set(C.handbookReady || []);
+const SHORT = Object.fromEntries(STEPS.map(s => [s.id, s.short]));
+if (HANDBOOK) { const a = document.getElementById("hbTop"); a.href = HANDBOOK; a.hidden = false; }
+document.getElementById("kInfo").textContent = `${C.stages.length} stages · ${STEPS.length} steps`;
+
+/* Build the weekly schedule from the roadmap steps */
+function chunk(arr, n, k) { const size = Math.ceil(arr.length / n); return arr.slice(k * size, (k + 1) * size); }
+const ITEMS = [];
+let stepNo = 0;
+function addStep(s) {
+  stepNo++;
+  const n = Math.max(1, Math.round(s.weeks));
+  for (let k = 0; k < n; k++) ITEMS.push({ id: `${s.id}.w${k+1}`, kind: s.opt ? "opt" : "week", step: s, no: stepNo, k, n,
+    topics: chunk(s.topics, n, k), papers: chunk(s.papers, n, k), last: k === n - 1 });
+}
+/* Each stage: its required steps, then a stage exam (the last one is the capstone); a buffer week after stages marked bufferAfter; optional steps go after the last exam so they never delay required work */
+C.stages.forEach((g, gi) => {
+  const list = STEPS.filter(s => s.stage === g.id), req = list.filter(s => !s.opt);
+  req.forEach(addStep);
+  const final = gi === C.stages.length - 1;
+  ITEMS.push({ id: "exam." + g.id, kind: "exam", exam: g.id, final, title: `สอบท้าย ${g.label} + ${final ? "Capstone" : "Portfolio review"}`, steps: req });
+  if (g.bufferAfter) ITEMS.push({ id: "buffer." + g.id, kind: "buffer", title: "Buffer: เคลียร์งานค้าง / สอบมหาลัย / พัก" });
+});
+STEPS.filter(s => s.opt).forEach(addStep);
+
+const PASS = { week: 70, opt: 70, exam: 60 };
+const MAX_TRIES = 3;
+let start = "2026-11-02";
+let demoState = {};
+try { demoState = JSON.parse(localStorage.getItem('cedt-demo-semester-v1') || '{}'); } catch {}
+const progress = demoState.progress || { 'step-1.w1': { workDone: true, workNote: 'ผลงานสมมติ: ทดสอบ list ว่างและคำนวณผลรวมของ [2, 4, 6] ได้ 12', workAt: '2026-11-08T12:00:00+07:00', best: 85, tries: 1, passedAt: '2026-11-08T12:00:00+07:00', lastFeedback: 'ตัวอย่าง feedback สมมติ: แยกฟังก์ชันได้ชัดเจน ควรเพิ่มการทดสอบกรณีข้อมูลว่าง' } };
+if (demoState.start) start = demoState.start;
+function persistDemo() { try { localStorage.setItem('cedt-demo-semester-v1', JSON.stringify({progress, start})); } catch { showNotice('เบราว์เซอร์ไม่อนุญาตบันทึก ข้อมูลจะหายเมื่อรีโหลด'); } }
+let db = null, sample = null, canWrite = true;
+const openIds = new Set();
+const exams = {};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const TH_M = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const fmt = d => `${d.getDate()} ${TH_M[d.getMonth()]}`;
+const wkLabel = i => "W" + String(i + 1).padStart(2, "0");
+function parseStart(s) { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); }
+function weekStart(i) { const d = parseStart(start); d.setDate(d.getDate() + i*7); return d; }
+function deadline(i) { const d = weekStart(i); d.setDate(d.getDate() + 6); d.setHours(23,59,59,999); return d; }
+function itemTitle(it) { return it.step ? it.step.title : it.title; }
+
+function info(i) {
+  const it = ITEMS[i], p = progress[it.id] || {}, now = new Date();
+  const ws = weekStart(i), dl = deadline(i);
+  const graded = it.kind !== "buffer";
+  const workOk = !graded || !!p.workDone;
+  const quizOk = !graded || (p.best ?? 0) >= PASS[it.kind];
+  const done = graded ? (workOk && quizOk) : now > dl;
+  const doneAt = Math.max(p.workAt ? Date.parse(p.workAt) : 0, p.passedAt ? Date.parse(p.passedAt) : 0);
+  const late = done && graded && doneAt > dl.getTime();
+  const early = done && graded && doneAt < ws.getTime();
+  let status;
+  if (done) status = late ? "late" : early ? "early" : "done";
+  else if (now > dl) status = it.kind === "opt" ? "future" : "over";
+  else if (now >= ws) status = "now";
+  else status = "future";
+  return { it, p, ws, dl, done, late, status };
+}
+const PILL = { done: "ผ่าน", early: "ผ่านก่อนกำหนด", late: "ส่งช้า", over: "เลยกำหนด", now: "สัปดาห์นี้", future: "ยังไม่ถึง" };
+
+function grade() {
+  const now = new Date(); let qs = [], work = [], exm = [];
+  ITEMS.forEach((it, i) => {
+    if (it.kind === "buffer" || it.kind === "opt") return;
+    const f = info(i); if (now < f.ws && f.p.best == null && !f.p.workDone) return;
+    const due = now > f.dl;
+    if (it.kind === "week") {
+      if (f.p.best != null || due) qs.push((f.p.best ?? 0) * (f.late ? .8 : 1));
+      if (f.p.workDone || due) work.push(f.p.workDone ? (f.late ? 80 : 100) : 0);
+    } else {
+      if (f.p.best != null || due) exm.push(f.p.best ?? 0);
+      if (f.p.workDone || due) work.push(f.p.workDone ? (f.late ? 80 : 100) : 0);
+    }
+  });
+  const avg = a => a.reduce((x,y)=>x+y,0)/a.length, parts = [];
+  if (qs.length) parts.push([avg(qs), 30]);
+  if (work.length) parts.push([avg(work), 30]);
+  if (exm.length) parts.push([avg(exm), 40]);
+  if (!parts.length) return null;
+  const score = parts.reduce((s,[v,w])=>s+v*w,0) / parts.reduce((s,[,w])=>s+w,0);
+  const L = score>=80?"A":score>=75?"B+":score>=70?"B":score>=65?"C+":score>=60?"C":score>=55?"D+":score>=50?"D":"F";
+  return { score, L };
+}
+
+function renderStrip() {
+  const now = new Date(), s = parseStart(start), lastReq = ITEMS.findIndex(x => x.final);
+  const end = deadline(lastReq);
+  $("#kWeeks").textContent = String(lastReq + 1);
+  $("#termRange").textContent = `${fmt(s)} ${s.getFullYear()+543} – ${fmt(end)} ${end.getFullYear()+543}`;
+  const cur = ITEMS.findIndex((_, i) => now >= weekStart(i) && now <= deadline(i));
+  if (now < s) { $("#sWeek").textContent = "ยังไม่เปิดภาค"; $("#sWeekT").textContent = `เริ่ม ${fmt(s)} · ทำล่วงหน้าได้เลย`; }
+  else if (cur < 0) { $("#sWeek").textContent = "จบภาค"; $("#sWeekT").textContent = ""; }
+  else { $("#sWeek").textContent = wkLabel(cur); $("#sWeekT").textContent = SHORT[ITEMS[cur].step?.id] || ITEMS[cur].title; }
+  const nextI = ITEMS.findIndex((it, i) => it.kind !== "opt" && it.kind !== "buffer" && deadline(i) >= now && !info(i).done);
+  if (nextI < 0) { $("#sDue").textContent = "–"; $("#sDueT").textContent = "ไม่มีงานรอส่ง"; }
+  else {
+    const ms = deadline(nextI) - now, d = Math.floor(ms/864e5), h = Math.floor(ms%864e5/36e5);
+    $("#sDue").textContent = d > 0 ? `${d} วัน ${h} ชม.` : `${h} ชม.`;
+    $("#sDueT").textContent = `${wkLabel(nextI)} · อา. ${fmt(deadline(nextI))} 23:59`;
+  }
+  const g = grade();
+  $("#sGrade").textContent = g ? g.L : "–";
+  $("#sGradeT").textContent = g ? `${g.score.toFixed(1)} คะแนน` : "ยังไม่มีคะแนน";
+  const over = ITEMS.filter((_, i) => info(i).status === "over").length;
+  const ahead = ITEMS.filter((_, i) => info(i).done && now < weekStart(i) && ITEMS[i].kind !== "buffer").length;
+  const lates = ITEMS.filter((_, i) => info(i).status === "late").length;
+  $("#sLate").textContent = String(over);
+  $("#sLate").style.color = over ? "var(--bad)" : "";
+  $("#sLateT").textContent = over ? (over > 2 ? "เกิน 2 สัปดาห์ ใช้ Buffer เคลียร์" : "สัปดาห์ที่เลยกำหนด")
+    : ahead ? `นำหน้าตาราง ${ahead} สัปดาห์` : lates ? `ส่งช้าไปแล้ว ${lates} ครั้ง` : "ไม่มีงานค้าง";
+}
+
+function stepStatus(stepId) {
+  const idx = ITEMS.map((it, i) => it.step?.id === stepId ? i : -1).filter(i => i >= 0);
+  const st = idx.map(i => info(i).status);
+  if (st.includes("over")) return "over";
+  if (st.every(s => s === "done" || s === "early" || s === "late")) return "done";
+  if (st.includes("now")) return "now";
+  return "future";
+}
+function renderMap() {
+  const groups = {};
+  STEPS.forEach(s => (groups[s.stage] ||= []).push(s));
+  let n = 0;
+  $("#map").innerHTML = Object.entries(groups).map(([g, list]) => {
+    const meta = STAGE[g];
+    const wks = list.filter(s => !s.opt).reduce((a, s) => a + s.weeks, 0);
+    const cards = list.map((s, j) => {
+      n++;
+      const st = stepStatus(s.id), first = ITEMS.findIndex(it => it.step?.id === s.id);
+      const flag = st === "now" ? "กำลังเรียน" : st === "done" ? "ผ่านแล้ว ✓" : st === "over" ? "เลยกำหนด" : `เริ่ม ${fmt(weekStart(first))}`;
+      return (j ? `<span class="arrow" aria-hidden="true">→</span>` : "") +
+        `<button type="button" class="card s-${st}${s.opt ? " opt" : ""}" data-goto="${esc(ITEMS[first].id)}">
+          <span class="num">${n}</span><span class="t">${esc(SHORT[s.id])}</span>
+          <span class="m">${s.weeks} wk${s.diff ? " · " + esc(s.diff) : ""}${s.hw ? " · " + esc((HW[s.hw]||s.hw).split(" · ")[0]) : ""}${s.opt ? " · ไม่บังคับ" : ""}</span>
+          <span class="flag">${flag}</span></button>`;
+    }).join("");
+    return `<section><div class="stage-tag">${esc(meta.label)} · ${esc(meta.title)}<small>${list.length} steps · ${wks} wk</small></div><div class="cards">${cards}</div></section>`;
+  }).join("");
+}
+
+function paperHTML(p) {
+  return `<div class="paper"><a class="pt" href="${esc(p.u)}" target="_blank" rel="noopener">${esc(p.t)}</a>
+    <span class="pa"><span class="depth ${esc(p.d)}">${DEPTH[p.d] || esc(p.d)}</span>${esc(p.a)}${p.y ? " · " + esc(p.y) : ""}</span>
+    <span class="pw">${esc(p.why)}</span></div>`;
+}
+
+function lessonHTML(i) {
+  const f = info(i), it = f.it, p = f.p;
+  let h = "";
+  if (it.step) {
+    const s = it.step, meta = STAGE[s.stage];
+    h += `<div><p class="kicker">${wkLabel(i)} · ${esc(meta.label)} · Step ${it.no} · สัปดาห์ ${it.k+1}/${it.n}</p>
+      <h3 class="big">${esc(s.title)}</h3>
+      <div class="chips" style="margin-top:8px">${s.lenses.map(l => `<span class="chip lens">${esc(l)}</span>`).join("")}${s.diff ? `<span class="chip">${esc(s.diff)}</span>` : ""}<span class="chip">${s.weeks} wk</span>${s.hw ? `<span class="chip">${esc(HW[s.hw]||s.hw)}</span>` : ""}${s.opt?'<span class="chip">ไม่บังคับ</span>':""}</div></div>`;
+    const hb = "w" + String(i + 1).padStart(2, "0");
+    h += HANDBOOK_READY.has(hb)
+      ? `<a class="hb-link" href="${HANDBOOK}#${hb}" target="_blank" rel="noopener"><b>อ่านบทเรียน ${wkLabel(i)} ใน Handbook →</b><span>คำอธิบายภาษาไทย ตัวอย่าง และแบบฝึกหัดเขียนโค้ดที่ตรวจด้วย <code>python -m unittest test_practice.py</code></span></a>`
+      : `<p class="hint" style="margin:0">บทเรียนใน Handbook ของสัปดาห์นี้ยังไม่ได้เขียน (เขียนนำหน้าตาราง 2 สัปดาห์)</p>`;
+    h += `<div class="goal"><b>เป้าหมายสัปดาห์นี้:</b><ul class="topics">${it.topics.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>`;
+    h += it.k === 0
+      ? `<div class="def" data-label="What and why">${esc(s.desc)}</div>`
+      : `<details class="more"><summary>What and why ของ step นี้</summary>${esc(s.desc)}</details>`;
+    if (it.papers.length) h += `<div><div class="sec-lbl">Paper ที่ต้องอ่านสัปดาห์นี้</div><div class="stack">${it.papers.map(paperHTML).join("")}</div></div>`;
+    h += `<details class="more"${it.k === 0 ? " open" : ""}><summary>Tools และ resources ของ step นี้</summary><ul>
+      ${s.tools.map(t => `<li><a href="${esc(t.u)}" target="_blank" rel="noopener">${esc(t.n)}</a> <span>${esc(t.p)}</span></li>`).join("")}
+      ${s.res.map(r => `<li><a href="${esc(r.u)}" target="_blank" rel="noopener">${esc(r.t)}</a> <span>(${esc(r.k)})</span></li>`).join("")}</ul></details>`;
+    if (s.notes.length) h += `<div class="note"><b>อัปเดต 2026:</b> ${s.notes.map(esc).join(" ")}</div>`;
+    h += taskHTML(it, p, f,
+      it.last ? `ส่ง project: ${it.n > 1 ? "ปิดงานที่ทำมาทั้ง step" : "ทำให้เสร็จในสัปดาห์นี้"}` : `ความคืบหน้า project (สัปดาห์ ${it.k+1}/${it.n})`,
+      it.last ? `ลิงก์ GitHub/notebook + ตัวเลขที่วัดได้ + สรุปสิ่งที่เรียนรู้` : `ทำถึงไหนแล้ว ตัวเลขที่ได้ ติดตรงไหน (ลิงก์ commit ถ้ามี)`,
+      `<div><b>You'll build:</b> ${esc(it.step.project)}</div>`);
+    h += quizHTML(it, p);
+  } else if (it.kind === "exam") {
+    const fin = !!it.final;
+    h += `<div><p class="kicker">${wkLabel(i)} · Stage exam</p><h3 class="big">${esc(it.title)}</h3></div>`;
+    h += `<div class="goal"><b>ครอบคลุม:</b><ul class="topics">${it.steps.map(s => `<li>${esc(SHORT[s.id])}</li>`).join("")}</ul></div>`;
+    h += taskHTML(it, p, f, fin ? "Capstone" : "Portfolio review",
+      fin ? "ลิงก์ demo + รายงาน" : "ลิงก์ GitHub ที่รวม project ของ stage นี้ พร้อม README สรุปแต่ละงาน",
+      fin ? `<div>${esc(C.capstone || "")}</div>`
+          : `<div>รวม project ทั้ง ${it.steps.length} step ของ stage นี้ไว้ใน repo เดียว เขียน README ที่อธิบายว่าแต่ละงานวัดอะไรและได้ตัวเลขเท่าไหร่</div>`);
+    h += quizHTML(it, p);
+  } else {
+    h += `<div><p class="kicker">${wkLabel(i)} · Buffer</p><h3 class="big">${esc(it.title)}</h3></div><p class="note" style="margin:0">ไม่มีเนื้อหาใหม่ ใช้เคลียร์สัปดาห์ที่เลยกำหนด อ่านสอบมหาลัย หรือพัก</p>`;
+  }
+  return h;
+}
+
+function taskHTML(it, p, f, title, ph, brief) {
+  const done = !!p.workDone;
+  return `<div class="task"><div class="task-head"><h3>${esc(title)}</h3>${it.step ? `<span class="hw">${esc(HW[it.step.hw]||"")}</span>` : ""}</div>
+    ${brief}
+    <label class="hint" for="work-${esc(it.id)}">${esc(ph)} อย่างน้อย 40 ตัวอักษร</label>
+    <textarea id="work-${esc(it.id)}" ${done||!canWrite?"readonly":""}>${esc(p.workNote||"")}</textarea>
+    <div class="row">${done
+      ? `<span class="pill ${f.late?"late":"done"}">ส่งแล้ว ${p.workAt?fmt(new Date(p.workAt)):""}</span><button class="btn" type="button" data-act="unwork" data-id="${esc(it.id)}">แก้ไข</button>`
+      : `<button class="btn primary" type="button" data-act="work" data-id="${esc(it.id)}" ${canWrite?"":"disabled"}>ส่งงาน</button>`}
+      <span class="hint" id="workmsg-${esc(it.id)}"></span></div></div>`;
+}
+
+function quizHTML(it, p) {
+  const isExam = it.kind === "exam", need = PASS[it.kind], tries = p.tries || 0;
+  return `<div class="q-wrap" id="exam-${esc(it.id)}"><div class="task-head"><h3>${isExam ? "สอบท้าย Stage" : "สอบย่อยประจำสัปดาห์"}</h3>
+    <span class="hint">ผ่าน ≥ ${need}% · ${isExam ? 10 : 5} ข้อ · เหลือ ${Math.max(0, MAX_TRIES - tries)}/${MAX_TRIES} ครั้ง</span></div>
+    ${p.best != null ? `<div class="row"><span class="hint">คะแนนสูงสุด</span><span class="score ${p.best >= need ? "pass" : "fail"}">${p.best}%</span></div>` : ""}
+    ${p.lastFeedback ? `<div class="fb">${esc(p.lastFeedback)}</div>` : ""}
+    <div id="examBody-${esc(it.id)}">${examBody(it, p)}</div></div>`;
+}
+
+function examBody(it, p) {
+  const ex = exams[it.id];
+  if (ex?.state === "loading") return `<div class="row"><span class="hint">${esc(ex.msg)}</span><button class="btn" type="button" data-act="stop" data-id="${esc(it.id)}">หยุด</button></div>`;
+  if (ex?.state === "taking" || ex?.state === "graded") {
+    const graded = ex.state === "graded";
+    let h = ex.qs.map((q, qi) => {
+      let inner = `<div class="q-head">ข้อ ${qi+1} · <span class="tag">${q.type === "mcq" ? "ปรนัย" : "อัตนัย"}</span></div><div>${esc(q.q)}</div>`;
+      if (q.type === "mcq") inner += q.choices.map((c, ci) => {
+        const cls = graded ? (ci === q.answer ? "right" : (ex.ans[qi] === ci ? "wrong" : "")) : "";
+        return `<label class="choice ${cls}"><input type="radio" name="q-${esc(it.id)}-${qi}" value="${ci}" ${ex.ans[qi]===ci?"checked":""} ${graded?"disabled":""} data-q="${qi}" data-id="${esc(it.id)}"><span>${esc(c)}</span></label>`;
+      }).join("");
+      else inner += `<textarea data-q="${qi}" data-id="${esc(it.id)}" ${graded?"readonly":""} placeholder="ตอบ 2–5 ประโยค มีตัวเลขหรือเหตุผลประกอบ">${esc(ex.ans[qi]||"")}</textarea>`;
+      if (graded) inner += `<div class="fb"><b class="mono">${ex.pts[qi]}/${ex.per}</b> · ${esc(ex.fb[qi]||"")}</div>`;
+      return `<div class="q">${inner}</div>`;
+    }).join("");
+    if (graded) h += `<div class="row" style="margin-top:12px"><span class="score ${ex.total >= PASS[it.kind] ? "pass" : "fail"}">${ex.total}%</span><span class="hint">${esc(ex.summary||"")}</span></div>`;
+    else h += `<div class="row" style="margin-top:12px"><button class="btn primary" type="button" data-act="submit" data-id="${esc(it.id)}">ส่งคำตอบ</button><span class="hint" id="exmsg-${esc(it.id)}"></span></div>`;
+    return h;
+  }
+  const tries = p.tries || 0;
+  if (!sample) return `<p class="hint" style="margin:0">Demo นี้ไม่เรียก AI · สกิลจริงสร้างและตรวจข้อสอบใหม่ผ่าน Claude artifact</p>`;
+  if (tries >= MAX_TRIES) return `<p class="hint" style="margin:0">ใช้สิทธิ์สอบครบ ${MAX_TRIES} ครั้งแล้ว</p>`;
+  return `<div class="row"><button class="btn primary" type="button" data-act="exam" data-id="${esc(it.id)}" ${canWrite?"":"disabled"}>${tries ? "สอบใหม่ (ข้อสอบชุดใหม่)" : "เริ่มสอบ"}</button>${ex?.err ? `<span class="hint" style="color:var(--bad)">${esc(ex.err)}</span>` : ""}</div>`;
+}
+
+function render() {
+  renderStrip(); renderMap();
+  const now = new Date();
+  $("#weeks").innerHTML = ITEMS.map((it, i) => {
+    const f = info(i), cur = now >= f.ws && now <= f.dl;
+    const sub = it.step ? `${SHORT[it.step.id]} · สัปดาห์ ${it.k+1}/${it.n}` : it.kind === "exam" ? "สอบ + ส่งงานรวม" : "สัปดาห์สำรอง";
+    return `<details class="wk kind-${it.kind}${cur ? " is-current" : ""}" id="row-${esc(it.id)}" data-id="${esc(it.id)}" ${openIds.has(it.id) ? "open" : ""}>
+      <summary><div class="no">${wkLabel(i)}<small>${fmt(f.ws)}–${fmt(f.dl)}</small></div>
+      <div class="ttl"><b>${esc(it.step ? SHORT[it.step.id] : it.title)}</b><span>${esc(sub)}${it.kind === "opt" ? " · ไม่บังคับ" : ""}</span></div>
+      <span class="pill ${f.status}">${PILL[f.status]}</span></summary>
+      <div class="lesson">${openIds.has(it.id) ? lessonHTML(i) : ""}</div></details>`;
+  }).join("");
+}
+function refreshRow(id) {
+  const i = ITEMS.findIndex(x => x.id === id), row = document.getElementById("row-" + id);
+  if (row?.open) row.querySelector(".lesson").innerHTML = lessonHTML(i);
+}
+function rerenderExam(id) {
+  const it = ITEMS.find(x => x.id === id), el = document.getElementById("examBody-" + id);
+  if (el) el.innerHTML = examBody(it, progress[id] || {});
+}
+
+$("#weeks").addEventListener("toggle", e => {
+  const d = e.target; if (!d.matches?.("details.wk")) return;
+  const id = d.dataset.id;
+  if (d.open) { openIds.add(id); const l = d.querySelector(".lesson"); if (!l.innerHTML.trim()) l.innerHTML = lessonHTML(ITEMS.findIndex(x => x.id === id)); }
+  else openIds.delete(id);
+}, true);
+
+$("#map").addEventListener("click", e => {
+  const c = e.target.closest("[data-goto]"); if (!c) return;
+  const id = c.dataset.goto, row = document.getElementById("row-" + id);
+  if (!row) return;
+  row.open = true;
+  row.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+});
+
+$("#weeks").addEventListener("change", e => {
+  const t = e.target; if (!t.dataset.q) return;
+  const ex = exams[t.dataset.id]; if (ex?.state === "taking") ex.ans[+t.dataset.q] = t.type === "radio" ? +t.value : t.value;
+});
+$("#weeks").addEventListener("input", e => {
+  const t = e.target; if (t.tagName !== "TEXTAREA" || !t.dataset.q) return;
+  const ex = exams[t.dataset.id]; if (ex?.state === "taking") ex.ans[+t.dataset.q] = t.value;
+});
+$("#weeks").addEventListener("click", e => {
+  const b = e.target.closest("button[data-act]"); if (!b) return;
+  const id = b.dataset.id, act = b.dataset.act;
+  if (act === "work") submitWork(id);
+  else if (act === "unwork") save(id, { workDone: false }).then(() => { refreshRow(id); renderStrip(); renderMap(); });
+  else if (act === "exam") startExam(id);
+  else if (act === "stop") exams[id]?.ctl?.abort();
+  else if (act === "submit") gradeExam(id);
+});
+
+async function save(id, patch) {
+  progress[id] = { ...(progress[id] || {}), ...patch };
+  persistDemo();
+  if (!db) return;
+  try { await db.doc("progress/" + id).set(progress[id]); }
+  catch (err) { showNotice("บันทึกไม่สำเร็จ: " + (err?.message || err?.code || "ลองใหม่อีกครั้ง")); }
+}
+function afterChange(id) { render(); const row = document.getElementById("row-" + id); if (row) row.open = true; }
+
+async function submitWork(id) {
+  const v = (document.getElementById("work-" + id)?.value || "").trim(), msg = document.getElementById("workmsg-" + id);
+  if (v.length < 40) { msg.textContent = "ใส่รายละเอียดจริงอย่างน้อย 40 ตัวอักษร เขียนแค่ว่า \"เสร็จแล้ว\" ไม่นับ"; msg.style.color = "var(--bad)"; return; }
+  const p = progress[id] || {};
+  await save(id, { workDone: true, workNote: v, workAt: p.workAt && p.workNote === v ? p.workAt : new Date().toISOString() });
+  afterChange(id);
+}
+
+function topicText(it) {
+  if (it.kind === "exam") return it.steps.map(s => `- ${s.title}: ${s.topics.map(t => t.split(":")[0]).join("; ")}`).join("\n").slice(0, 12000);
+  const s = it.step;
+  return `Step: ${s.title}\nบริบท: ${s.desc}\nหัวข้อสัปดาห์นี้:\n${it.topics.map(t => "- " + t).join("\n")}\nPaper สัปดาห์นี้:\n${it.papers.map(p => `- ${p.t}: ${p.why}`).join("\n") || "-"}\nProject ของ step: ${s.project}`;
+}
+
+async function startExam(id) {
+  const it = ITEMS.find(x => x.id === id), isExam = it.kind === "exam";
+  const nM = isExam ? 6 : 3, nS = isExam ? 4 : 2, ctl = new AbortController();
+  exams[id] = { state: "loading", msg: "Claude กำลังออกข้อสอบ...", ctl };
+  rerenderExam(id);
+  const prompt = `คุณคืออาจารย์ผู้ออกข้อสอบวิชา ${C.subject} ระดับ${C.level || "ปริญญาตรี"} ที่เน้นการนำไปใช้จริง
+ออกข้อสอบชุดใหม่ (รหัสชุด ${Math.random().toString(36).slice(2, 8)}) เป็นภาษาไทย ศัพท์เทคนิคใช้ภาษาอังกฤษ ครอบคลุม:
+${topicText(it)}
+
+ข้อกำหนด:
+- ปรนัย ${nM} ข้อ ข้อละ 4 ตัวเลือก ถูกข้อเดียว ตัวเลือกผิดต้องเป็นความเข้าใจผิดที่พบบ่อยจริง
+- อัตนัยสั้น ${nS} ข้อ ต้องให้คำนวณ อธิบายเหตุผล หรือเลือก trade-off ในสถานการณ์จริง ห้ามถามท่องนิยาม
+- ระดับยาก-กลาง วัดว่าเอาไปทำงานได้จริงไหม
+- ตอบเป็น JSON อย่างเดียว:
+{"questions":[{"type":"mcq","q":"...","choices":["...","...","...","..."],"answer":0,"explain":"..."},{"type":"short","q":"...","rubric":"ประเด็นที่ต้องมีเพื่อได้คะแนนเต็ม"}]}`;
+  try {
+    const data = await sample.json(prompt, { signal: ctl.signal, cache: false });
+    const qs = (data?.questions || []).filter(q => q && q.q && (q.type === "short" || (Array.isArray(q.choices) && q.choices.length >= 2)));
+    if (qs.length < 3) throw { code: "invalid_json" };
+    await save(id, { tries: ((progress[id] || {}).tries || 0) + 1 });
+    exams[id] = { state: "taking", qs, ans: {} };
+    refreshRow(id);
+  } catch (err) { exams[id] = { state: "idle", err: errMsg(err) }; rerenderExam(id); }
+}
+
+async function gradeExam(id) {
+  const it = ITEMS.find(x => x.id === id), ex = exams[id], msg = document.getElementById("exmsg-" + id);
+  const missing = ex.qs.findIndex((q, i) => q.type === "mcq" ? ex.ans[i] == null : !(ex.ans[i] || "").trim());
+  if (missing >= 0) { msg.textContent = `ยังไม่ได้ตอบข้อ ${missing+1}`; msg.style.color = "var(--bad)"; return; }
+  const per = Math.round(100 / ex.qs.length * 10) / 10;
+  ex.per = per; ex.pts = []; ex.fb = [];
+  ex.qs.forEach((q, i) => { if (q.type === "mcq") { const ok = ex.ans[i] === q.answer; ex.pts[i] = ok ? per : 0; ex.fb[i] = (ok ? "ถูก · " : "ผิด · ") + (q.explain || ""); } });
+  const shorts = ex.qs.map((q, i) => ({ q, i })).filter(x => x.q.type === "short");
+  const ctl = new AbortController(), keep = { ...ex };
+  exams[id] = { state: "loading", msg: "Claude กำลังตรวจคำตอบอัตนัย...", ctl };
+  rerenderExam(id);
+  try {
+    if (shorts.length) {
+      const prompt = `ตรวจคำตอบอัตนัยวิชา ${C.subject} อย่างเข้มงวดแต่ยุติธรรม แต่ละข้อเต็ม ${per} คะแนน
+ให้คะแนนตาม rubric ถ้าคลุมเครือหรือไม่มีเหตุผลรองรับให้หักคะแนน ถ้าผิดหลักการให้ 0
+ฟีดแบ็กภาษาไทย 1–3 ประโยค บอกว่าขาดอะไรและควรอ่านอะไรเพิ่ม
+
+${shorts.map((s, k) => `ข้อ ${k+1}\nคำถาม: ${s.q.q}\nRubric: ${s.q.rubric || "-"}\nคำตอบนักศึกษา: ${String(ex.ans[s.i]).slice(0, 3000)}`).join("\n\n")}
+
+ตอบเป็น JSON อย่างเดียว: {"grades":[{"score":0,"feedback":"..."}],"summary":"สรุปจุดอ่อนภาพรวม 1 ประโยค"} เรียงตามลำดับข้อ`;
+      const r = await sample.json(prompt, { signal: ctl.signal, cache: false });
+      shorts.forEach((s, k) => { const g = r?.grades?.[k] || {}; keep.pts[s.i] = Math.max(0, Math.min(per, Number(g.score) || 0)); keep.fb[s.i] = g.feedback || ""; });
+      keep.summary = r?.summary || "";
+    }
+    keep.total = Math.round(keep.pts.reduce((a, b) => a + b, 0));
+    keep.state = "graded"; exams[id] = keep;
+    const p = progress[id] || {}, patch = { best: Math.max(p.best ?? 0, keep.total), lastScore: keep.total, lastFeedback: keep.summary || "", lastAt: new Date().toISOString() };
+    if (keep.total >= PASS[it.kind] && !p.passedAt) patch.passedAt = new Date().toISOString();
+    await save(id, patch);
+    afterChange(id);
+  } catch (err) {
+    keep.state = "taking"; exams[id] = keep; rerenderExam(id);
+    const m = document.getElementById("exmsg-" + id);
+    if (m) { m.textContent = errMsg(err) + " คำตอบยังอยู่ กดส่งใหม่ได้"; m.style.color = "var(--bad)"; }
+  }
+}
+
+function errMsg(e) {
+  switch (e?.code) {
+    case "cancelled": return "หยุดแล้ว";
+    case "not_granted": case "sampling_disabled": return "ยังไม่ได้อนุญาตให้หน้านี้ใช้ Claude เปิดได้ที่เมนู Permissions ของ artifact";
+    case "rate_limited": return "เรียก Claude ถี่เกินไปหรือโควตาเต็ม รอสักพักแล้วลองใหม่";
+    case "invalid_json": return "Claude ส่งข้อสอบกลับมาไม่ครบ กดใหม่ได้ (ไม่เสียสิทธิ์สอบ)";
+    case "session_expired": return "ต้องล็อกอิน claude.ai ใหม่";
+    default: return "เชื่อมต่อ Claude ไม่สำเร็จ ลองใหม่อีกครั้ง";
+  }
+}
+function showNotice(t) { const n = $("#notice"); n.textContent = t; n.hidden = !t; }
+
+$("#saveStart").addEventListener("click", async () => {
+  const v = $("#startDate").value, m = $("#startMsg");
+  if (!v || parseStart(v).getDay() !== 1) { m.textContent = "ต้องเลือกวันจันทร์"; m.style.color = "var(--bad)"; return; }
+  start = v; persistDemo(); render(); m.textContent = "บันทึกในเบราว์เซอร์นี้แล้ว";
+  if (db) { try { await db.doc("config/course").set({ start: v }); m.textContent = "บันทึกแล้ว"; m.style.color = "var(--ok)"; } catch { m.textContent = "บันทึกไม่สำเร็จ"; m.style.color = "var(--bad)"; } }
+});
+
+render();
+setInterval(renderStrip, 60000);
+
+showNotice("DEMO · ทดลองส่งบันทึกงานได้ ข้อมูลอยู่เฉพาะเบราว์เซอร์นี้ คะแนนเริ่มต้นเป็นข้อมูลสมมติ ระบบสอบ AI ไม่เปิดบนเว็บสาธิต");
+</script>
+</html>
