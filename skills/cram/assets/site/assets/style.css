@@ -154,3 +154,27 @@ figure.slide figcaption b { font-family: var(--hand); color: var(--brown); font-
 #dock .bar button { background: none; border: 0; color: var(--ink-soft); font-size: 16px; cursor: pointer; }
 #dock video { width: 100%; display: block; background: #000; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+/* quotes in lessons */
+blockquote { margin: 16px 0; padding: 6px 16px; border-left: 4px solid var(--rule); color: var(--ink-soft); }
+blockquote p { margin: 4px 0; }
+
+/* interactive widgets (widgets.js) */
+.widget { background: var(--card); border: 1px solid var(--rule); padding: 14px 16px; margin: 24px 0; }
+.widget .kit-plot { width: 100%; height: auto; display: block; touch-action: pan-y; }
+.kit-axes line { stroke: var(--muted); stroke-width: 1; }
+.kit-axes text, .kit-label { font: 12px var(--mono); fill: var(--ink-soft); }
+.kit-slider { display: flex; align-items: center; gap: 10px; margin: 10px 0 4px; font-size: 15px; }
+.kit-slider input { flex: 1; accent-color: var(--blue); }
+.kit-slider output { font-family: var(--mono); min-width: 4em; text-align: right; }
+.widget .readout { font-size: 15.5px; margin-top: 6px; }
+.widget .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; color: var(--ink-soft); margin: 4px 0 8px; }
+.widget .legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 6px; }
+.widget button { font: inherit; font-size: 15px; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); padding: 3px 12px; cursor: pointer; }
+.widget button:hover { border-color: var(--slate); color: var(--slate); }
+
+/* boxes written in Markdown wrap their text in <p>: no extra space at the edges */
+:is(.def, .warn, .note, .goal, .lecture, .link-infer, .exercise, details.predict, .sources) > p:first-child,
+details.predict > summary + p { margin-top: 0; }
+:is(.def, .warn, .note, .goal, .lecture, .link-infer, .exercise, details.predict, .sources) > p:last-child { margin-bottom: 0; }
+.tbl { margin: 16px 0; } .tbl > table { margin: 0; }
