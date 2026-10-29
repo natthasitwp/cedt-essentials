@@ -11,7 +11,7 @@
   --measure: 44rem;
   color-scheme: light;
 }
-/* Light is the default. Dark mode is opt-in: <html data-theme="dark">. */
+/* Light is the default. Dark mode is opt-in: set data-theme="dark" on the root html element. */
 :root[data-theme="dark"] {
   --paper: #1A1917; --paper-2: #23211E; --card: #211F1C;
   --ink: #E6E0D8; --ink-soft: #B9B1A8; --muted: #8C857D; --rule: #3A3631; --grid: rgba(255,250,240,.035);
